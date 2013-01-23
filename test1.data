@@ -5,6 +5,16 @@
 MIN: 1, 2 3
 FOO: 1, 2, 3
 MIN:
+MIN 112233
+  MIN: 4, -3, 2, 40
   MIN: 4, 3, 2, 40
-  MIN: 4, 3, 2, 40
-  AVERAGE    : 4, 3, 2, 40
+  AVERAGE    : 4, 3, 2, -40
+ average    : 4, 3, 2, 40
+MIN: 1
+MAX: 1
+AVERAGE: 1
+SUM: 1
+SUM: 0
+AVERAGE: 0
+MAX: 0
+MIN: 0
