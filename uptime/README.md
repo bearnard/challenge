@@ -5,7 +5,7 @@ Versions:
 ```
 
     uptime_multi:
-        multiprocessing version, may not be very efficient at high concurency levely
+        multiprocessing version, may not be very efficient at high concurency levels
 
     uptime_gevent:
         More effecient at realy large concurrencies due to minimal context switching 
