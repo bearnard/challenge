@@ -1,0 +1,2 @@
+paramiko==1.9.0
+gevent==0.13.8
