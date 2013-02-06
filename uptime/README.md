@@ -20,9 +20,54 @@ Versions:
     uptime_multi_queue:
         multiprocessing version (producer/consumer)
 
+            At higher concurrencies forking becomes a problem.
+
+            (env)bearn:uptime bearnard$ time ./uptime_multi_queue.py foo 2500
+            Traceback (most recent call last):
+              File "./uptime_multi_queue.py", line 50, in <module>
+                sshw.start()
+              File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/multiprocessing/process.py", line 130, in start
+                self._popen = Popen(self)
+              File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/multiprocessing/forking.py", line 120, in __init__
+                self.pid = os.fork()
+            OSError: [Errno 35] Resource temporarily unavailable
+
+            real    0m3.816s
+            user    0m1.422s
+            sys 0m6.138s
+
+
+
     uptime_gevent_queue:
         gevent version (producer/consumer)
         this should be the most efficient as long as there isn't any blocking code trying to run.
+            
+            Greenlets are light.
+
+            (env)bearn:uptime bearnard$ time ./uptime_gevent_queue.py foo 2500
+            host1.domain.net 64 days, 11:53
+            host2.domain.net 64 days, 11:36
+            host2.domain.net 64 days, 11:36
+            host2.domain.net 64 days, 11:36
+            host1.domain.net 64 days, 11:53
+            host2.domain.net 64 days, 11:36
+            host1.domain.net 64 days, 11:53
+            host1.domain.net 64 days, 11:53
+            host3.domain.net 64 days, 11:32
+            host2.domain.net 64 days, 11:36
+            host2.domain.net 64 days, 11:36
+            host2.domain.net 64 days, 11:36
+            host1.domain.net 64 days, 11:53
+            host1.domain.net 64 days, 11:53
+            host2.domain.net 64 days, 11:36
+            host1.domain.net 64 days, 11:53
+            host2.domain.net 64 days, 11:36
+            host1.domain.net 64 days, 11:53
+            host1.domain.net 64 days, 11:53
+
+            real    0m1.607s
+            user    0m0.652s
+            sys 0m0.085s
 
     bash:
         cat foo |xargs -n1 -P 20 bash  -c 'resp=$(ssh $1 "uptime"|cut -f 4-6 -d " ") ;echo  "$1 - $resp" ' _

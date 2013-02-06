@@ -7,12 +7,11 @@ import re
 
 def uptime(i, queue):
 
+    client = paramiko.SSHClient()
+    client.get_host_keys()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     while True:
         host = queue.get()
-        client = paramiko.SSHClient()
-        client.get_host_keys()
-        client.set_missing_host_key_policy(paramiko.WarningPolicy())
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(host, port=22)
         stdin, stdout, stderr = client.exec_command('uptime')
         result = stdout.read()
