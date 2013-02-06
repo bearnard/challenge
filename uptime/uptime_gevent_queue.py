@@ -8,24 +8,22 @@ import sys
 import os
 import re
 
-
 def uptime(i, queue):
+    client = paramiko.SSHClient()
+    #  prevent blocking while loading host keys
+    client.get_host_keys()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     while True:
         try:
             host = queue.get(block=True)
-            client = paramiko.SSHClient()
-            client.get_host_keys()
-            client.set_missing_host_key_policy(paramiko.WarningPolicy())
-            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             client.connect(host, port=22)
             stdin, stdout, stderr = client.exec_command('uptime')
             result = stdout.read()
-            client.close()
             res_dict = re.match(r'.*up\s+(?P<uptime>.*?),\s+([0-9]+) users?', result.strip()).groupdict()
             print host, res_dict['uptime']
         finally:
             queue.task_done()
-
+    client.close()
 
 def produce_hosts(file_name, queue):
     """ Produces work for the uptime worker.
