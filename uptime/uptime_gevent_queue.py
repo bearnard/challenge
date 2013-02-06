@@ -19,11 +19,13 @@ def uptime(i, queue):
             client.connect(host, port=22)
             stdin, stdout, stderr = client.exec_command('uptime')
             result = stdout.read()
+            client.close()
             res_dict = re.match(r'.*up\s+(?P<uptime>.*?),\s+([0-9]+) users?', result.strip()).groupdict()
             print host, res_dict['uptime']
+        except:
+            print "Failed:", host
         finally:
             queue.task_done()
-    client.close()
 
 def produce_hosts(file_name, queue):
     """ Produces work for the uptime worker.
