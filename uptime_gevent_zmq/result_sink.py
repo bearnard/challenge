@@ -15,7 +15,7 @@ receiver.bind("tcp://*:5558")
 
 s = receiver.recv()
 
-with open(results_file, 'w', 0) as fh:
+with open(results_file, 'w') as fh:
 
     while True:
         s = receiver.recv()
