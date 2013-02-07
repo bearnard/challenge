@@ -27,6 +27,7 @@ def uptime(i, queue):
         finally:
             queue.task_done()
 
+
 def produce_hosts(file_name, queue):
     """ Produces work for the uptime worker.
     """

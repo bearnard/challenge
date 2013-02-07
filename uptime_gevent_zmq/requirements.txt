@@ -1,0 +1,3 @@
+paramiko==1.9.0
+gevent==0.13.8
+gevent-zeromq==0.2.5
