@@ -27,7 +27,7 @@ Details:
 
     tx_worker.py:
         twisted conch based worker, sends results to the result sink
-            (env)bearn:uptime_gevent_zmq bearnard$ ./ssh.py -s tcp://127.0.0.1:5557 -r tcp://127.0.0.1:5558 -u bearnard -p 22 -i workerX -c 100
+            (env)bearn:uptime_gevent_zmq bearnard$ ./tx_worker.py -s tcp://127.0.0.1:5557 -r tcp://127.0.0.1:5558 -u bearnard -p 22 -i workerX -c 100
 
         this has proved to be the best performing worker type.
 
