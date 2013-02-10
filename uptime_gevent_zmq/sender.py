@@ -31,7 +31,7 @@ if __name__ == '__main__':
     sender = context.socket(zmq.PUSH)
 
     # Optional HighWatermark to block if workers are busy
-    sender.setsockopt(zmq.SNDHWM, watermark)
+    #sender.setsockopt(zmq.SNDHWM, watermark)
     sender.bind("tcp://*:5557")
 
     # Socket with direct access to the uptime results sink.

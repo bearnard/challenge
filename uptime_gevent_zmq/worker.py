@@ -4,10 +4,12 @@ monkey.patch_all()
 from gevent.pool import Pool
 from gevent.queue import JoinableQueue
 from gevent_zeromq import zmq
+import gevent
 import paramiko
 import sys
 import os
 import re
+import signal
 
 def uptime(i, worker_id, queue, sender):
     client = paramiko.SSHClient()
@@ -38,11 +40,23 @@ def recv_hosts(receiver, queue):
         queue.put(message.strip(), block=True)
 
 
+
+def watchdog(delay=0.2, threshold = 0.2): # 0.2 sec. check interval, 20% threshold
+    def signalhandler(sig, frame):
+        print "Blocking Code detected"
+        print gevent.greenlet.getcurrent()
+    signal.signal(signal.SIGALRM, signalhandler)
+    while True:
+        signal.setitimer(signal.ITIMER_REAL,delay + delay * threshold)
+        gevent.sleep(delay)
+
+
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
         sys.exit('Usage: %s worker_id concurrency' % sys.argv[0])
 
+    wd = gevent.spawn(watchdog)
     worker_id = sys.argv[1]
     concurrency = int(sys.argv[2])
     queue = JoinableQueue(maxsize=concurrency)
@@ -51,7 +65,7 @@ if __name__ == '__main__':
     context = zmq.Context()
     # Socket to receive ssh hosts on
     receiver = context.socket(zmq.PULL)
-    receiver.setsockopt(zmq.RCVHWM, concurrency)
+    #receiver.setsockopt(zmq.RCVHWM, concurrency)
     receiver.connect("tcp://localhost:5557")
 
     # Socket to send uptime results to
