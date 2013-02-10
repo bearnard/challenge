@@ -81,6 +81,8 @@ References:
     http://sdiehl.github.com/gevent-tutorial/
     http://zeromq.github.com/pyzmq/index.html
     https://github.com/traviscline/gevent-zeromq
+    http://stackoverflow.com/questions/4617507/best-way-to-run-remote-commands-thru-ssh-in-twisted
+    http://blogs.fluidinfo.com/terry/2011/06/27/a-resizable-dispatch-queue-for-twisted/
 ```
 
 Assumptions:
