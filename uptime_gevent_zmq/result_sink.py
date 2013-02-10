@@ -19,5 +19,8 @@ with open(results_file, 'w') as fh:
 
     while True:
         s = receiver.recv()
+        if s.strip() == 'STOP':
+            print "STOP Recieved"
+            break
         print s
         fh.write('%s\n' % s)

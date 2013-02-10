@@ -1,3 +1,6 @@
 paramiko==1.9.0
 gevent==0.13.8
 gevent-zeromq==0.2.5
+twisted=12.3.0
+pycrypto==2.6
+txZMQ==0.6.1
